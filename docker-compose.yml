@@ -1,0 +1,38 @@
+services:
+  easyconnect:
+    image: hagb/docker-easyconnect:latest
+    container_name: easyconnect
+    hostname: easyconnect
+    privileged: true
+    restart: unless-stopped
+
+    environment:
+      # 显示设置
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+
+      # 启用 noVNC Web 界面
+      - USE_NOVNC=1
+
+      # VNC 密码
+      - PASSWORD=easyconnect
+
+      # 禁用后台监控
+      - DISABLE_PKG_VERSION=1
+
+    ports:
+      # VNC 端口 (避免与 macOS 屏幕共享冲突，改用 5901)
+      - "5901:5900"
+      # noVNC Web 界面 (tinyproxy)
+      - "6080:8080"
+      # SOCKS5 代理 (用于访问内网)
+      - "1080:1080"
+      # HTTP 代理 (用于访问内网)
+      - "8888:8888"
+
+    volumes:
+      # 持久化配置
+      - ./data:/root/.easyconn
+
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
