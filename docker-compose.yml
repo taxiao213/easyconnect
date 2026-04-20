@@ -20,6 +20,9 @@ services:
       # 禁用后台监控
       - DISABLE_PKG_VERSION=1
 
+      # 禁用版本检查（绕过强制更新）
+      - DISABLE_PKG_VERSION_XML=1
+
     ports:
       # VNC 端口 (避免与 macOS 屏幕共享冲突，改用 5901)
       - "5901:5900"
